@@ -4,6 +4,7 @@ import scala.io.StdIn
 import scala.util.matching.Regex
 import com.revature.bankapp.dao.UserDao
 import com.revature.bankapp.controller.UserController
+import com.revature.bankapp.util.FileUtil
 
 /** A CLI that allows the user to interact with our application
   *
@@ -36,7 +37,7 @@ class Cli {
   def printOptions(): Unit = {
     println("Commands available:")
     println("list users : lists all books stored in Bookapp")
-    println("find [firstName lastName] : lists all the users with that name")
+    println("loadcsv [file_name] : lists all the users with that name")
     println("add user : adds a new book to the database")
     println("update user : update a existing user to the database")
     println("delete user : delete a user from the database")
@@ -62,12 +63,21 @@ class Cli {
             if cmd.equalsIgnoreCase("list") && arg.equalsIgnoreCase("users") => {
             UserController.getAll();
         }
-        case commandArgPattern(cmd, arg) if cmd.equalsIgnoreCase("find") => {
-          printUsers(arg)
-        }
         case commandArgPattern(cmd, arg)
             if cmd.equalsIgnoreCase("add") && arg.equalsIgnoreCase("user") => {
               UserController.addUser();
+            }
+        case commandArgPattern(cmd, arg)
+            if cmd.equalsIgnoreCase("update") && arg.equalsIgnoreCase("user") => {
+              UserController.updateUser();
+            }
+        case commandArgPattern(cmd, arg)
+            if cmd.equalsIgnoreCase("delete") && arg.equalsIgnoreCase("user") => {
+              UserController.deleteUser();
+            }
+        case commandArgPattern(cmd, arg)
+            if cmd.equalsIgnoreCase("loadcsv")=> {
+              UserController.importFromCsvToDatabase(arg);
             }
         case commandArgPattern(cmd, arg) => {
           println(s"""Failed to parse command: "$cmd" with arguments: "$arg"""")
@@ -86,26 +96,4 @@ class Cli {
     //BookDao.get(title).foreach(println)
   }
   
-  /**
-    * runs an add book sub menu, we're skipping some QoL features present on the main menu
-    */
-  def runAddUserSubMenu(): Unit = {
-      /*
-    println("title?")
-    val titleInput = StdIn.readLine()
-    println("ISBN?")
-    val isbnInput = StdIn.readLine()
-    try {
-      if (BookDao.saveNew(Book(0, titleInput, isbnInput))) {
-        println("added new book!")
-      } 
-    } catch {
-      case e : Exception => {
-        println("failed to add book.")
-      }
-      
-    }
-    */
-  }
-
 }
