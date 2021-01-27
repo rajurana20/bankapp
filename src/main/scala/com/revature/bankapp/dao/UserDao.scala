@@ -51,7 +51,7 @@ object UserDao {
     {
       val conn = ConnectionUtil.getConnection()
       Using.Manager { use =>
-      val stmt = use(conn.prepareStatement("INSERT INTO public.user VALUES (DEFAULT, ?, ?,?,?,?,?,?,?,?,?);"))
+      val stmt = use(conn.prepareStatement("INSERT INTO public.user VALUES (DEFAULT, ?, ?,?,?,?,?,?,?,?,cast(? as date));"))
       
       stmt.setString(1, user.firstName)
       stmt.setString(2, user.lastName)
@@ -62,10 +62,8 @@ object UserDao {
       stmt.setString(7, user.idNumber)
       stmt.setString(8, user.idType)
       stmt.setString(9, user.issuedOrganization)
-      println("hello")
-      println(user.validDate)
       //stmt.setString(10, user.validDate)
-      stmt.setDate(10, java.sql.Date.valueOf(user.validDate))
+      stmt.setString(10, user.validDate)
       
       
       stmt.execute()

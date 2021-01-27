@@ -27,7 +27,7 @@ object FileUtil {
     try {
       openedFile = Source.fromFile(filename)  
       // Scala returns the last line of this try block, since there is nothing below the try-finally
-      openedFile.getLines().mkString("\n");
+      openedFile.getLines().drop(1).mkString("\n");
     } finally {
       //if the file was opened, close it
       if (openedFile != null) openedFile.close()

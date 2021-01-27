@@ -18,7 +18,15 @@ import scala.language.postfixOps;
 object UserController {
   def getAll(): Unit = {
     print("\u001b[H")
-    UserDao.getAll().foreach(println)
+    val users:Seq[User] = UserDao.getAll();
+    if(users.isEmpty)
+    {
+      println("******  NO DATA FOUND *******");
+    }
+    else{
+      println("User(userId, firstName, lastName, street address, city, state, ssn, idNumber, idType, issuing organization, validity date )")
+      users.foreach(println);
+    }
   }
 
   def addUser () = {
@@ -68,16 +76,14 @@ object UserController {
       for(userString <- userStrings)
       {
         var userArg= userString.split(",");
-        var user=User(0, userArg(0),userArg(1),userArg(2),userArg(3),userArg(4),userArg(5),userArg(6), userArg(7),userArg(8), userArg(9));
+        var user=User(0,userArg(1).trim(),userArg(2).trim(),userArg(3).trim(),userArg(4).trim(),userArg(5).trim(),userArg(6).trim(), userArg(7).trim(),userArg(8).trim(), userArg(9).trim(),userArg(10).trim());
         if(UserDao.save(user)){
-          println("Suceefully saved")
+          println(s"${user} Suceefully saved")
         }
         else{
-          println("Failed")
+          println(s"${user} Failed to save")
         }
-        println( user);
       }
-
     //lst.foreach(println);
   }
 

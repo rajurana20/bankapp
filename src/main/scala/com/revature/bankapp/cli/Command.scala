@@ -35,13 +35,16 @@ class Cli {
   /** Prints the commands available to the user
     */
   def printOptions(): Unit = {
+    println("==========================================================================================");
     println("Commands available:")
-    println("list users : lists all books stored in Bookapp")
+    println("==========================================================================================");
+    println("list users : lists all books stored in Bank App")
     println("loadcsv [file_name] : lists all the users with that name")
-    println("add user : adds a new book to the database")
+    println("add user : adds a user to the database")
     println("update user : update a existing user to the database")
     println("delete user : delete a user from the database")
     println("exit : exits Bank App CLI")
+    println("==========================================================================================");
   }
 
   /** This runs the menu, this is the entrypoint to the Cli class.
@@ -77,7 +80,7 @@ class Cli {
             }
         case commandArgPattern(cmd, arg)
             if cmd.equalsIgnoreCase("loadcsv")=> {
-              UserController.importFromCsvToDatabase(arg);
+              UserController.insertFromCsvToDatabase(arg);
             }
         case commandArgPattern(cmd, arg) => {
           println(s"""Failed to parse command: "$cmd" with arguments: "$arg"""")
